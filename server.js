@@ -1,24 +1,32 @@
-require('dotenv').config();
+require('dotenv').config();  
 const express = require('express');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
-const tourRoutes = require('./routes/tourRoutes');
-const bookingRoutes = require("./routes/bookingRoutes");
-const cors = require('cors');
-
+const cors = require('cors');  
+const connectDB = require('./config/db');  
+const authRoutes = require('./routes/authRoutes'); 
+const tourRoutes = require('./routes/tourRoutes');  
+const bookingRoutes = require('./routes/bookingRoutes');  
 
 const app = express();
 
 
 connectDB();
 
-app.use(cors());
-app.use(express.json());
+
+const corsOptions = {
+  origin: '*',  
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  
+};
+
+
+app.use(cors(corsOptions)); 
+app.use(express.json());  
 
 // Routes
 app.use('/auth', authRoutes);
 app.use('/tours', tourRoutes);
-app.use("/bookings", bookingRoutes);
+app.use('/bookings', bookingRoutes);
 
 
 const PORT = 5000;
